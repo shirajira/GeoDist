@@ -1,0 +1,10 @@
+# Mac
+.DS_Store
+
+# Swift Package
+/.build
+/Packages
+/*.xcodeproj
+xcuserdata/
+DerivedData/
+.swiftpm/xcode/package.xcworkspace/contents.xcworkspacedata
