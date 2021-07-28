@@ -16,6 +16,53 @@
 // limitations under the License.
 //--------------------------------------------------------------------------//
 
+import Foundation
+import CoreLocation
+
 public class GeoDist {
+    /**
+     Equatorial radius [km]
+     */
+    public static let equatorialradius: Double = 6_378.137
+
+    /**
+     Convert degrees to radians.
+     - parameter degrees: Degrees [deg]
+     - returns: Radians [rad]
+     */
+    public static func radians(_ degrees: Double) -> Double {
+        return (degrees * Double.pi) / 180.0
+    }
+
+    /**
+     Convert radians to degrees.
+     - parameter radians: Radians [rad]
+     - returns: Degrees [deg]
+     */
+    public static func degrees(_ radians: Double) -> Double {
+        return (radians * 180.0) / Double.pi
+    }
+
+    /**
+     Calculate a distance from `start` to `end`.
+     - parameter start: Start coordinate
+     - parameter end: End coordinate
+     - returns: Distance [km]
+     */
+    public static func calculate(from start: CLLocationCoordinate2D, to end: CLLocationCoordinate2D) -> Double {
+        // Convert coordinates to radians.
+        let startLatitude = radians(start.latitude)
+        let startLongitude = radians(start.longitude)
+        let endLatitude = radians(end.latitude)
+        let endLongitude = radians(end.longitude)
+
+        // Average latitude and longitude.
+        let averageLatitude = (endLatitude - startLatitude) / 2.0
+        let averageLongitude = (endLongitude - startLongitude) / 2.0
+
+        // Calculate the distance [km].
+        let distance = 2.0 * equatorialradius * asin(sqrt(pow(sin(averageLatitude), 2.0) + cos(startLatitude) * cos(endLatitude) * pow(sin(averageLongitude), 2.0)))
+        return distance
+    }
 
 }
